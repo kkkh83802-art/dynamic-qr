@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087f5b">
+  <title>Dynamic QR | روابطنا وعروضنا</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{--green:#087f5b;--green2:#0ca678;--ink:#15231e;--muted:#718078;--line:#e5eee9;--bg:#f5f8f6;--white:#fff;--red:#c92a2a;--shadow:0 16px 45px rgba(22,66,48,.08)}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Cairo",Inter,sans-serif}
+    body.en{font-family:Inter,"Cairo",sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}
+    .wrap{max-width:1120px;margin:auto;padding:0 20px}.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px}
+    .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--green),#20c997);display:grid;place-items:center;color:white;font-weight:800}
+    .actions{display:flex;gap:9px;align-items:center}.btn{border:0;border-radius:12px;padding:10px 16px;font-weight:700}.primary{background:var(--green);color:white}.soft{background:#eaf6f0;color:var(--green)}.outline{background:#fff;border:1px solid var(--line);color:var(--ink)}
+    .hero{padding:62px 0 36px;background:radial-gradient(circle at 85% 15%,#d7f5e8 0,transparent 32%),linear-gradient(180deg,#fff,#f5f8f6)}
+    .hero-inner{display:grid;grid-template-columns:1.3fr .7fr;align-items:center;gap:30px}.eyebrow{color:var(--green);font-weight:800;font-size:13px}
+    h1{font-size:clamp(34px,5vw,54px);line-height:1.25;margin:12px 0}.hero p{color:var(--muted);font-size:17px;max-width:620px;line-height:1.9}
+    .hero-art{background:linear-gradient(145deg,#087f5b,#20c997);border-radius:28px;min-height:210px;display:grid;place-items:center;color:#fff;box-shadow:var(--shadow);font-size:70px}
+    .section{padding:35px 0 65px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:20px}.section h2{margin:0;font-size:26px}.muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 8px 25px rgba(22,66,48,.04);display:flex;flex-direction:column}
+    .photo{height:190px;background:#eaf4ee;display:grid;place-items:center;color:#8ca99a;font-size:38px;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover}
+    .card-body{padding:17px;display:flex;flex-direction:column;gap:8px;flex:1}.card h3{margin:0;font-size:19px}.card p{margin:0;color:var(--muted);line-height:1.7;font-size:14px;white-space:pre-wrap}.card .btn{margin-top:8px;text-align:center;text-decoration:none}
+    .empty,.notice{padding:28px;text-align:center;background:#fff;border:1px dashed #cddbd2;border-radius:18px;color:var(--muted);grid-column:1/-1}
+    footer{padding:25px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;background:#fff}
+    .modal{position:fixed;inset:0;background:#10251dcc;display:none;place-items:center;padding:16px;z-index:10}.modal.show{display:grid}.panel{background:#fff;border-radius:20px;padding:22px;width:min(100%,540px);max-height:90vh;overflow:auto}
+    .panel h2{margin:0 0 15px}.field{display:grid;gap:6px;margin:12px 0}.field label{font-weight:700;font-size:13px}.field input,.field textarea{width:100%;border:1px solid #d9e5dd;border-radius:11px;padding:11px;background:#fbfdfb;outline-color:var(--green)}textarea{min-height:82px;resize:vertical}
+    .row{display:flex;gap:10px}.row>*{flex:1}.adminbar{display:none;background:#eaf6f0;border:1px solid #ccebd9;padding:12px;border-radius:14px;margin:15px 0;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .adminbar.show{display:flex}.small{font-size:12px}.danger{color:var(--red)}.hidden{display:none!important}
+    @media(max-width:760px){.hero-inner{grid-template-columns:1fr}.hero-art{min-height:130px;font-size:48px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:38px}}
+    @media(max-width:520px){.wrap{padding:0 14px}.nav{height:66px}.brand{font-size:17px}.grid{grid-template-columns:1fr}.photo{height:210px}.hero p{font-size:15px}.actions .btn{padding:9px 11px}}
+  </style>
+</head>
+<body>
+<header class="top"><div class="wrap nav">
+  <div class="brand"><div class="logo">QR</div><span>Dynamic QR</span></div>
+  <div class="actions"><button class="btn outline" id="langBtn">English</button><button class="btn soft" id="loginBtn">دخول الإدارة</button></div>
+</div></header>
+<main>
+  <section class="hero"><div class="wrap hero-inner">
+    <div><div class="eyebrow" data-ar="روابطك وعروضك في مكان واحد" data-en="Your links and offers in one place">روابطك وعروضك في مكان واحد</div>
+      <h1 data-ar="اكتشف أحدث العروض والروابط" data-en="Discover the latest offers and links">اكتشف أحدث العروض والروابط</h1>
+      <p data-ar="امسح رمز QR للوصول السريع إلى العروض والروابط المحدثة. تصفح أحدث ما نقدمه بسهولة من هاتفك." data-en="Scan a QR code to reach updated offers and useful links. Explore what’s new, easily from your phone.">امسح رمز QR للوصول السريع إلى العروض والروابط. تصفح أحدث ما نقدمه بسهولة من هاتفك.</p>
+    </div><div class="hero-art" aria-hidden="true">▦</div>
+  </div></section>
+  <section class="section"><div class="wrap">
+    <div class="section-head"><div><div class="eyebrow" data-ar="مختارة لك" data-en="HANDPICKED FOR YOU">مختارة لك</div><h2 data-ar="العروض والروابط" data-en="Offers & Links">العروض والروابط</h2></div><span class="muted small" id="count"></span></div>
+    <div id="adminBar" class="adminbar"><strong data-ar="وضع الإدارة مفعل" data-en="Admin mode is active">وضع الإدارة مفعل</strong><div class="actions"><button class="btn primary" id="addBtn" data-ar="إضافة عرض" data-en="Add offer">إضافة عرض</button><button class="btn outline" id="logoutBtn" data-ar="تسجيل الخروج" data-en="Sign out">تسجيل الخروج</button></div></div>
+    <div id="offers" class="grid"><div class="notice" data-ar="جارٍ تحميل العروض..." data-en="Loading offers...">جارٍ تحميل العروض...</div></div>
+  </div></section>
+</main>
+<footer><div class="wrap">© <span id="year"></span> Dynamic QR · <span data-ar="جميع الحقوق محفوظة" data-en="All rights reserved">جميع الحقوق محفوظة</span></div></footer>
+
+<div class="modal" id="loginModal"><div class="panel"><h2 data-ar="دخول المشرف" data-en="Admin sign in">دخول المشرف</h2>
+  <form id="loginForm"><div class="field"><label data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</label><input id="email" type="email" required autocomplete="username"></div>
+  <div class="field"><label data-ar="كلمة المرور" data-en="Password">كلمة المرور</label><input id="password" type="password" required autocomplete="current-password"></div>
+  <p class="small muted" id="loginError"></p><div class="actions"><button class="btn primary" type="submit" data-ar="تسجيل الدخول" data-en="Sign in">تسجيل الدخول</button><button class="btn outline closeModal" type="button" data-ar="إلغاء" data-en="Cancel">إلغاء</button></div></form></div></div>
+
+<div class="modal" id="offerModal"><div class="panel"><h2 id="formTitle">إضافة عرض</h2>
+  <form id="offerForm"><input type="hidden" id="offerId"><input type="hidden" id="oldImage">
+    <div class="row"><div class="field"><label>العنوان بالعربية</label><input id="title_ar" required maxlength="150"></div><div class="field"><label>Title in English</label><input id="title_en" maxlength="150"></div></div>
+    <div class="row"><div class="field"><label>الوصف بالعربية</label><textarea id="description_ar"></textarea></div><div class="field"><label>Description in English</label><textarea id="description_en"></textarea></div></div>
+    <div class="field"><label>رابط العرض / Offer URL</label><input id="target_url" type="url" placeholder="https://example.com"></div>
+    <div class="field"><label>صورة العرض / Offer image</label><input id="image" type="file" accept="image/*"></div>
+    <label class="small"><input id="is_active" type="checkbox" checked> العرض منشور / Published</label>
+    <p class="small muted" id="formError"></p><div class="actions" style="margin-top:16px"><button class="btn primary" type="submit">حفظ / Save</button><button class="btn outline closeModal" type="button">إلغاء / Cancel</button></div>
+  </form></div></div>
+
+<script>
+  // ضع بيانات مشروع Supabase هنا. استخدم anon/publishable key فقط، ولا تضع service_role key أبداً.
+  const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_OR_PUBLISHABLE_KEY";
+  const BUCKET = "offers";
+  const TABLE = "offers";
+
+  const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("YOUR_PROJECT_ID") && !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE");
+  const db = configured && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+  let lang = "ar", isAdmin = false, currentUser = null, offers = [];
+  const $ = id => document.getElementById(id);
+  const tr = (ar,en) => lang === "ar" ? ar : en;
+  function setLang(next){lang=next;document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";document.body.classList.toggle("en",lang==="en");$("langBtn").textContent=lang==="ar"?"English":"العربية";document.querySelectorAll("[data-ar]").forEach(el=>el.textContent=el.dataset[lang]);$("loginBtn").textContent=tr("دخول الإدارة","Admin login");renderOffers();}
+  $("langBtn").onclick=()=>setLang(lang==="ar"?"en":"ar"); $("year").textContent=new Date().getFullYear();
+  function modal(id,show){$(id).classList.toggle("show",show)} document.querySelectorAll(".closeModal").forEach(b=>b.onclick=()=>{modal("loginModal",false);modal("offerModal",false)});
+  $("loginBtn").onclick=()=>modal("loginModal",true);
+  function escapeHtml(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  function imageUrl(path){if(!path)return "";return db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;}
+  function renderOffers(){
+    const host=$("offers"); $("count").textContent=offers.length?`${offers.length}`:"";
+    if(!configured){host.innerHTML=`<div class="empty">${tr("أضف رابط مشروع Supabase ومفتاحه في ملف index.html لعرض البيانات.","Add your Supabase project URL and key in index.html to load data.")}</div>`;return;}
+    if(!offers.length){host.innerHTML=`<div class="empty">${tr("لا توجد عروض منشورة حالياً.","No published offers yet.")}</div>`;return;}
+    host.innerHTML=offers.map(o=>{const title=lang==="ar"?(o.title_ar||o.title_en):(o.title_en||o.title_ar);const desc=lang==="ar"?(o.description_ar||o.description_en):(o.description_en||o.description_ar);const img=imageUrl(o.image_path);return `<article class="card"><div class="photo">${img?`<img src="${escapeHtml(img)}" alt="">`:"▧"}</div><div class="card-body"><h3>${escapeHtml(title||"")}</h3><p>${escapeHtml(desc||"")}</p>${o.target_url?`<a class="btn primary" href="${escapeHtml(o.target_url)}" target="_blank" rel="noopener">${tr("عرض التفاصيل","View details")}</a>`:""}${isAdmin?`<div class="actions"><button class="btn soft" onclick="editOffer('${o.id}')">${tr("تعديل","Edit")}</button><button class="btn outline danger" onclick="deleteOffer('${o.id}')">${tr("حذف","Delete")}</button></div>`:""}</div></article>`}).join("");
+  }
+  async function loadOffers(){if(!configured){renderOffers();return;}const {data,error}=await db.from(TABLE).select("*").order("created_at",{ascending:false});if(error){$("offers").innerHTML=`<div class="empty">${tr("تعذر تحميل العروض: ","Could not load offers: ")}${escapeHtml(error.message)}</div>`;return;}offers=(data||[]).filter(o=>isAdmin||o.is_active);renderOffers();}
+  async function checkAdmin(){if(!db)return;const {data:{session}}=await db.auth.getSession();currentUser=session?.user||null;isAdmin=false;if(currentUser){const {data,error}=await db.from("site_admins").select("user_id").eq("user_id",currentUser.id).maybeSingle();isAdmin=!error&&!!data;}$("adminBar").classList.toggle("show",isAdmin);$("loginBtn").classList.toggle("hidden",isAdmin);await loadOffers();}
+  $("loginForm").onsubmit=async e=>{e.preventDefault();$("loginError").textContent="";const {error}=await db.auth.signInWithPassword({email:$("email").value,password:$("password").value});if(error){$("loginError").textContent=error.message;return;}modal("loginModal",false);await checkAdmin();};
+  $("logoutBtn").onclick=async()=>{await db.auth.signOut();await checkAdmin();};
+  $("addBtn").onclick=()=>openOffer();
+  function openOffer(o=null){$("offerForm").reset();$("offerId").value=o?.id||"";$("oldImage").value=o?.image_path||"";["title_ar","title_en","description_ar","description_en","target_url"].forEach(k=>$(k).value=o?.[k]||"");$("is_active").checked=o?!!o.is_active:true;$("formTitle").textContent=o?tr("تعديل العرض","Edit offer"):tr("إضافة عرض","Add offer");$("formError").textContent="";modal("offerModal",true);}
+  window.editOffer=id=>openOffer(offers.find(o=>o.id===id));
+  window.deleteOffer=async id=>{if(!confirm(tr("هل تريد حذف هذا العرض؟","Delete this offer?")))return;const o=offers.find(x=>x.id===id);const {error}=await db.from(TABLE).delete().eq("id",id);if(error){alert(error.message);return;}if(o?.image_path)await db.storage.from(BUCKET).remove([o.image_path]);await loadOffers();};
+  $("offerForm").onsubmit=async e=>{e.preventDefault();$("formError").textContent="";if(!isAdmin){$("formError").textContent=tr("ليس لديك صلاحية الإدارة.","Admin access required.");return;}
+    const id=$("offerId").value;let image_path=$("oldImage").value;const file=$("image").files[0];
+    if(file){const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"");const path=`${currentUser.id}/${crypto.randomUUID()}.${ext}`;const up=await db.storage.from(BUCKET).upload(path,file,{upsert:false,contentType:file.type});if(up.error){$("formError").textContent=up.error.message;return;}image_path=path;}
+    const payload={title_ar:$("title_ar").value.trim(),title_en:$("title_en").value.trim(),description_ar:$("description_ar").value.trim(),description_en:$("description_en").value.trim(),target_url:$("target_url").value.trim()||null,image_path:image_path||null,is_active:$("is_active").checked,updated_at:new Date().toISOString()};
+    const result=id?await db.from(TABLE).update(payload).eq("id",id):await db.from(TABLE).insert(payload);
+    if(result.error){$("formError").textContent=result.error.message;return;}modal("offerModal",false);await loadOffers();
+  };
+  if(db){db.auth.onAuthStateChange(()=>setTimeout(checkAdmin,0));checkAdmin();}else renderOffers();
+</script>
+</body></html>
